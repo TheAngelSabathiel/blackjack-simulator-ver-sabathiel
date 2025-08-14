@@ -1,0 +1,163 @@
+from art import logo
+import random
+
+def deal(competitor,card_number):
+    card_key = random.choice(list(deck.keys()))
+    while not deck[card_key]:
+        card_key = random.choice(list(deck.keys()))
+    deal_player = random.choice(deck[card_key])
+    deck[card_key].remove(deal_player)
+    competitor[card_number] = deal_player
+    return f"{deal_player} of {card_key}"
+
+def show_cards(cards):
+    for x in cards:
+        if cards[x] != "":
+            print(f"{cards[x]}")
+    print("\n")
+
+def evaluate(person):
+    person_value = 0
+    for y in person:
+        if person[y] == "King" or person[y] == "Queen" or person[y] == "Jack":
+            person_value += 10
+        elif person[y] == "Ace":
+            if person_value <= 10:
+                person_value += 11
+            else:
+                person_value += 1
+        elif person[y] != "":
+            person_value += person[y]
+    return person_value
+
+def compare():
+    if player_value <= 21:
+        if player_value > dealer_value:
+            return f"{name} wins."
+        elif player_value == dealer_value:
+            return "It is a draw."
+        elif dealer_value > 21:
+            return f"{name} wins."
+        else:
+            return f"{name} loses."
+    else:
+        return f"{name} loses."
+
+def count_points(group, a, b):
+    if player_value <= 21:
+        if player_value > dealer_value:
+            group[a] += 1
+        elif player_value == dealer_value:
+            group[a] += 1
+            group[b] += 1
+        elif dealer_value > 21:
+            group[a] += 1
+        else:
+            group[b] += 1
+    else:
+        group[b] += 1
+
+def check_cards(group):
+    z = 0
+    for key in group:
+        z += len(group[key])
+    return z
+
+want_to_start_over = True
+
+while want_to_start_over:
+    print(logo)
+
+
+    deck = {
+        "Clubs" : ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"],
+        "Spades" : ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"],
+        "Hearts" : ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"],
+        "Diamonds" : ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"],
+    }
+    rounds = 1
+    name = input("Enter your name: ")
+    points = {
+        name : 0,
+        "Dealer" : 0,
+    }
+    start_new_round = True
+    input("Enter any key to start.")
+    while check_cards(deck) >= 4 and start_new_round:
+        print(f"***********************************************************************")
+        input("Dealing...\n")
+        #deal cards to players
+        player = {}
+        player_cards = {}
+        dealer = {}
+        dealer_cards = {}
+
+
+        player_cards[1] = deal(player,1)
+        player_cards[2] = deal(player,2)
+        dealer_cards[1] = deal(dealer,1)
+        dealer_cards[2] = deal(dealer,2)
+        print(f"ROUND {rounds}:")
+        print(f"{name}'s Cards:")
+        show_cards(player_cards)
+
+        print(f'''Dealer's Cards:
+{dealer_cards[1]}
+***UNKNOWN***
+              ''')
+        count = 2
+
+        answer = "y"
+        player_value = evaluate(player)
+        while check_cards(deck) >= 1 and player_value <= 21 and answer == "y":
+            answer = input("Type 'y' if you want to hit.\n").lower()
+            if answer == "y":
+                count += 1
+                player_cards[count] = deal(player, count)
+                #add a condition to stop the loop so as not to consume cards from the deck
+            player_value = evaluate(player)
+            print(f"{name}'s Cards:")
+            show_cards(player_cards)
+            print(f'''Dealer's Cards:
+{dealer_cards[1]}
+***UNKNOWN***
+                  ''')
+
+        player_value = evaluate(player)
+        if player_value <= 21:
+            count = 2
+            dealer_value = evaluate(dealer)
+            while check_cards(deck) >= 1 and dealer_value < 17:
+                dealer_cards[count] = deal(dealer, count)
+                dealer_value = evaluate(dealer)
+                count += 1
+        dealer_value = evaluate(dealer)
+        print(f"{name}'s Cards:")
+        show_cards(player_cards)
+        print(f"Dealer's Cards:")
+        show_cards(dealer_cards)
+        #print(player_value) #check
+        #print(dealer_value) #check
+        #print(deck) #check remaining cards
+        print(f"\n***********************************************************************")
+        print(f"ROUND {rounds}:")
+        print(compare())
+        count_points(points, name, "Dealer")
+        print(f'''\nSUMMARY
+{name} = {points[name]} points
+Dealer = {points["Dealer"]} points''')
+        if check_cards(deck) < 4:
+            print("Insufficient amount of cards left. Start over a new deck to play again.")
+        print(f"***********************************************************************\n")
+        if check_cards(deck) >= 4:
+            start_new_round_input = input("Do you want to continue with the same deck? 'y' for YES or 'n' for NO.:\n").lower()
+            if start_new_round_input == "y":
+                start_new_round = True
+                rounds += 1
+            else:
+                start_new_round = False
+    want_to_start_over_input = input("Do you want to continue playing? We will use a new deck. 'y' for YES or 'n' to exit this game.:\n").lower()
+    if want_to_start_over_input == "y":
+        want_to_start_over = True
+    else:
+        want_to_start_over = False
