@@ -133,6 +133,7 @@ while want_to_start_over:
                 dealer_value = evaluate(dealer)
                 count += 1
         dealer_value = evaluate(dealer)
+        print(f"\n***********************************************************************")
         print(f"{name}'s Cards:")
         show_cards(player_cards)
         print(f"Dealer's Cards:")
