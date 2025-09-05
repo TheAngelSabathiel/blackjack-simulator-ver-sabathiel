@@ -3,7 +3,7 @@ A Python-based Blackjack game built as a capstone project from Dr. Angela Yu’s
 
 Hello!
 
-I'm excited to share my first capstone project: Blackjack — built using PyCharm as part of Day 10 of Dr. Angela Yu's Python Bootcamp on Udemy.
+I'm excited to share my first capstone project: Blackjack — built using Python (editor: PyCharm) as part of Day 10 of Dr. Angela Yu's Python Bootcamp on Udemy.
 I followed the course concepts closely but also challenged myself to deliver a more complete (or at least, near-complete) user experience. If you're familiar with the course, you’ll know that the Day 10 solution is typically about 70 lines long with hints provided. I went beyond that to add several new features.
 
 KEY FEATURES I IMPLEMENTED:
