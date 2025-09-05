@@ -110,7 +110,7 @@ while want_to_start_over:
         answer = "y"
         player_value = evaluate(player)
         while check_cards(deck) >= 1 and player_value <= 21 and answer == "y":
-            answer = input("Type 'y' if you want to hit.\n").lower()
+            answer = input("Type 'y' if you want to hit. Otherwise, enter any key.\n").lower()
             if answer == "y":
                 count += 1
                 player_cards[count] = deal(player, count)
