@@ -116,6 +116,7 @@ while want_to_start_over:
                 player_cards[count] = deal(player, count)
                 #add a condition to stop the loop so as not to consume cards from the deck
             player_value = evaluate(player)
+            print(f"\n***********************************************************************")
             print(f"{name}'s Cards:")
             show_cards(player_cards)
             print(f'''Dealer's Cards:
